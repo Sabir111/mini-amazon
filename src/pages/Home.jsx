@@ -104,14 +104,78 @@ const Home = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-amazon-blue to-gray-800 text-white rounded-lg p-8 mb-8">
-          <h1 className="text-4xl font-bold mb-4">Welcome to miniAmazon</h1>
-          <p className="text-xl">Discover amazing products at great prices</p>
+        <div className="bg-gradient-to-r from-amazon-blue to-gray-800 text-white rounded-lg p-4 sm:p-6 md:p-8 mb-6 md:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 md:mb-4">Welcome to miniAmazon</h1>
+          <p className="text-base sm:text-lg md:text-xl">Discover amazing products at great prices</p>
+        </div>
+
+        {/* Mobile Filters - Collapsible */}
+        <div className="lg:hidden mb-6">
+          <div className="bg-white rounded-lg shadow-md p-4">
+            <div className="grid grid-cols-2 gap-4">
+              {/* Category Filter */}
+              <div>
+                <label className="block text-sm font-medium mb-1">Category</label>
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amazon-orange focus:border-transparent text-sm"
+                >
+                  <option value="all">All Categories</option>
+                  {categories.map(category => (
+                    <option key={category} value={category}>
+                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Sort Filter */}
+              <div>
+                <label className="block text-sm font-medium mb-1">Sort By</label>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amazon-orange focus:border-transparent text-sm"
+                >
+                  <option value="default">Default</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="rating">Highest Rated</option>
+                  <option value="name">Name: A to Z</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Price Range - Mobile */}
+            <div className="mt-4">
+              <label className="block text-sm font-medium mb-2">Price Range</label>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="number"
+                  value={priceRange[0]}
+                  onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
+                  className="flex-1 p-2 border border-gray-300 rounded text-sm"
+                  min="0"
+                  placeholder="Min"
+                />
+                <span className="text-gray-500">-</span>
+                <input
+                  type="number"
+                  value={priceRange[1]}
+                  onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                  className="flex-1 p-2 border border-gray-300 rounded text-sm"
+                  min="0"
+                  placeholder="Max"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Filters Sidebar */}
-          <div className="lg:w-1/4">
+          {/* Desktop Filters Sidebar */}
+          <div className="hidden lg:block lg:w-1/4">
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
               <h2 className="text-lg font-semibold mb-4">Filters</h2>
               
@@ -173,13 +237,13 @@ const Home = () => {
           </div>
 
           {/* Products Grid */}
-          <div className="lg:w-3/4">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-semibold">
+          <div className="w-full lg:w-3/4">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+              <h2 className="text-xl md:text-2xl font-semibold">
                 {selectedCategory === 'all' ? 'All Products' : 
                  selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
               </h2>
-              <span className="text-gray-600">
+              <span className="text-gray-600 text-sm">
                 {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''}
               </span>
             </div>
@@ -189,7 +253,7 @@ const Home = () => {
                 <p className="text-gray-600 text-lg">No products found matching your criteria.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
                 {filteredProducts.map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}

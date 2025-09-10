@@ -119,46 +119,48 @@ const ProductDetail = () => {
         </nav>
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 p-4 sm:p-6 lg:p-8">
             {/* Product Image */}
-            <div className="flex items-center justify-center bg-gray-50 rounded-lg p-8">
+            <div className="flex items-center justify-center bg-gray-50 rounded-lg p-4 sm:p-6 lg:p-8">
               <img
                 src={product.image}
                 alt={product.title}
-                className="max-w-full max-h-96 object-contain"
+                className="max-w-full max-h-64 sm:max-h-80 lg:max-h-96 object-contain"
               />
             </div>
 
             {/* Product Info */}
-            <div className="space-y-6">
+            <div className="space-y-4 lg:space-y-6">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.title}</h1>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">{product.title}</h1>
                 <p className="text-sm text-gray-600 capitalize">Category: {product.category}</p>
               </div>
 
               {/* Rating */}
-              <div className="flex items-center space-x-2">
-                <div className="flex items-center">
-                  {renderStars(product.rating?.rate || 0)}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-1 sm:space-y-0">
+                <div className="flex items-center space-x-2">
+                  <div className="flex items-center">
+                    {renderStars(product.rating?.rate || 0)}
+                  </div>
+                  <span className="text-base sm:text-lg font-medium">{product.rating?.rate || 0}</span>
                 </div>
-                <span className="text-lg font-medium">{product.rating?.rate || 0}</span>
-                <span className="text-gray-600">({product.rating?.count || 0} reviews)</span>
+                <span className="text-gray-600 text-sm sm:text-base">({product.rating?.count || 0} reviews)</span>
               </div>
 
               {/* Price */}
-              <div className="text-4xl font-bold text-gray-900">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
                 ${product.price}
               </div>
 
               {/* Description */}
               <div>
-                <h3 className="text-lg font-semibold mb-2">Description</h3>
-                <p className="text-gray-700 leading-relaxed">{product.description}</p>
+                <h3 className="text-base sm:text-lg font-semibold mb-2">Description</h3>
+                <p className="text-gray-700 leading-relaxed text-sm sm:text-base">{product.description}</p>
               </div>
 
               {/* Add to Cart Section */}
-              <div className="border-t pt-6">
-                <div className="flex items-center space-x-4 mb-4">
+              <div className="border-t pt-4 lg:pt-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-3 sm:space-y-0 mb-4">
                   <label htmlFor="quantity" className="text-sm font-medium text-gray-700">
                     Quantity:
                   </label>
@@ -166,7 +168,7 @@ const ProductDetail = () => {
                     id="quantity"
                     value={quantity}
                     onChange={(e) => setQuantity(Number(e.target.value))}
-                    className="border border-gray-300 rounded-md px-3 py-1 focus:ring-2 focus:ring-amazon-orange focus:border-transparent"
+                    className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-amazon-orange focus:border-transparent w-full sm:w-auto"
                   >
                     {[...Array(10)].map((_, i) => (
                       <option key={i + 1} value={i + 1}>
@@ -176,16 +178,16 @@ const ProductDetail = () => {
                   </select>
                 </div>
 
-                <div className="flex space-x-4">
+                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                   <button
                     onClick={handleAddToCart}
-                    className="flex-1 bg-amazon-orange hover:bg-yellow-500 text-amazon-blue font-bold py-3 px-6 rounded-md transition-colors"
+                    className="flex-1 bg-amazon-orange hover:bg-yellow-500 text-amazon-blue font-bold py-3 px-6 rounded-md transition-colors text-sm sm:text-base"
                   >
                     Add to Cart
                   </button>
                   <Link
                     to="/cart"
-                    className="flex-1 bg-amazon-blue hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-md transition-colors text-center"
+                    className="flex-1 bg-amazon-blue hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-md transition-colors text-center text-sm sm:text-base"
                   >
                     Go to Cart
                   </Link>
@@ -193,7 +195,7 @@ const ProductDetail = () => {
               </div>
 
               {/* Additional Info */}
-              <div className="border-t pt-6 space-y-2 text-sm text-gray-600">
+              <div className="border-t pt-4 lg:pt-6 space-y-2 text-xs sm:text-sm text-gray-600">
                 <p>✓ Free shipping on orders over $25</p>
                 <p>✓ 30-day return policy</p>
                 <p>✓ Secure checkout</p>

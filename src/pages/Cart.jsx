@@ -42,16 +42,16 @@ const Cart = () => {
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-md">
-              <div className="p-6 border-b">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-semibold">Cart Items ({items.length})</h2>
+              <div className="p-4 sm:p-6 border-b">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                  <h2 className="text-lg sm:text-xl font-semibold">Cart Items ({items.length})</h2>
                   <button
                     onClick={clearCart}
-                    className="text-red-600 hover:text-red-800 text-sm font-medium"
+                    className="text-red-600 hover:text-red-800 text-sm font-medium self-start sm:self-auto"
                   >
                     Clear Cart
                   </button>
@@ -60,56 +60,60 @@ const Cart = () => {
 
               <div className="divide-y">
                 {items.map((item) => (
-                  <div key={item.id} className="p-6">
-                    <div className="flex items-start space-x-4">
-                      {/* Product Image */}
-                      <Link to={`/product/${item.id}`} className="flex-shrink-0">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-20 h-20 object-contain bg-gray-50 rounded-lg"
-                        />
-                      </Link>
-
-                      {/* Product Details */}
-                      <div className="flex-1 min-w-0">
-                        <Link to={`/product/${item.id}`} className="block">
-                          <h3 className="text-lg font-medium text-gray-900 hover:text-amazon-orange line-clamp-2">
-                            {item.title}
-                          </h3>
+                  <div key={item.id} className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
+                      {/* Product Image and Basic Info */}
+                      <div className="flex items-start space-x-3 sm:space-x-4">
+                        <Link to={`/product/${item.id}`} className="flex-shrink-0">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="w-16 h-16 sm:w-20 sm:h-20 object-contain bg-gray-50 rounded-lg"
+                          />
                         </Link>
-                        <p className="text-sm text-gray-600 capitalize mt-1">
-                          Category: {item.category}
-                        </p>
-                        <p className="text-lg font-bold text-gray-900 mt-2">
-                          ${item.price}
-                        </p>
+
+                        {/* Product Details */}
+                        <div className="flex-1 min-w-0">
+                          <Link to={`/product/${item.id}`} className="block">
+                            <h3 className="text-sm sm:text-lg font-medium text-gray-900 hover:text-amazon-orange line-clamp-2">
+                              {item.title}
+                            </h3>
+                          </Link>
+                          <p className="text-xs sm:text-sm text-gray-600 capitalize mt-1">
+                            Category: {item.category}
+                          </p>
+                          <p className="text-base sm:text-lg font-bold text-gray-900 mt-1 sm:mt-2">
+                            ${item.price}
+                          </p>
+                        </div>
                       </div>
 
-                      {/* Quantity and Remove */}
-                      <div className="flex flex-col items-end space-y-2">
-                        <div className="flex items-center space-x-2">
+                      {/* Quantity Controls and Total - Mobile Layout */}
+                      <div className="flex items-center justify-between sm:flex-col sm:items-end sm:space-y-2 border-t sm:border-t-0 pt-3 sm:pt-0">
+                        <div className="flex items-center space-x-3">
+                          <div className="flex items-center space-x-2">
+                            <button
+                              onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 text-sm"
+                            >
+                              -
+                            </button>
+                            <span className="w-8 sm:w-12 text-center font-medium text-sm sm:text-base">{item.quantity}</span>
+                            <button
+                              onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 text-sm"
+                            >
+                              +
+                            </button>
+                          </div>
                           <button
-                            onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                            className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100"
+                            onClick={() => removeFromCart(item.id)}
+                            className="text-red-600 hover:text-red-800 text-xs sm:text-sm font-medium"
                           >
-                            -
-                          </button>
-                          <span className="w-12 text-center font-medium">{item.quantity}</span>
-                          <button
-                            onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                            className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100"
-                          >
-                            +
+                            Remove
                           </button>
                         </div>
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-red-600 hover:text-red-800 text-sm font-medium"
-                        >
-                          Remove
-                        </button>
-                        <p className="text-lg font-bold text-gray-900">
+                        <p className="text-base sm:text-lg font-bold text-gray-900">
                           ${(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
@@ -122,58 +126,58 @@ const Cart = () => {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
-              <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 lg:sticky lg:top-24">
+              <h2 className="text-lg sm:text-xl font-semibold mb-4">Order Summary</h2>
               
               <div className="space-y-3 mb-6">
-                <div className="flex justify-between">
+                <div className="flex justify-between text-sm sm:text-base">
                   <span>Subtotal ({items.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
                   <span>${getCartTotal().toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between text-sm sm:text-base">
                   <span>Shipping</span>
                   <span className="text-green-600">FREE</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between text-sm sm:text-base">
                   <span>Tax</span>
                   <span>${(getCartTotal() * 0.08).toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-3">
-                  <div className="flex justify-between text-lg font-bold">
+                  <div className="flex justify-between text-base sm:text-lg font-bold">
                     <span>Total</span>
                     <span>${(getCartTotal() * 1.08).toFixed(2)}</span>
                   </div>
                 </div>
               </div>
 
-              <button className="w-full bg-amazon-orange hover:bg-yellow-500 text-amazon-blue font-bold py-3 px-6 rounded-md transition-colors mb-4">
+              <button className="w-full bg-amazon-orange hover:bg-yellow-500 text-amazon-blue font-bold py-3 px-6 rounded-md transition-colors mb-4 text-sm sm:text-base">
                 Proceed to Checkout
               </button>
 
               <Link
                 to="/"
-                className="block w-full text-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-6 rounded-md transition-colors"
+                className="block w-full text-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-6 rounded-md transition-colors text-sm sm:text-base"
               >
                 Continue Shopping
               </Link>
 
               {/* Security badges */}
               <div className="mt-6 pt-6 border-t">
-                <div className="text-sm text-gray-600 space-y-2">
+                <div className="text-xs sm:text-sm text-gray-600 space-y-2">
                   <p className="flex items-center">
-                    <svg className="w-4 h-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                     </svg>
                     Secure checkout
                   </p>
                   <p className="flex items-center">
-                    <svg className="w-4 h-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                     30-day return policy
                   </p>
                   <p className="flex items-center">
-                    <svg className="w-4 h-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
                     </svg>
                     Free shipping over $25

@@ -56,9 +56,9 @@ const ProductCard = ({ product }) => {
 
   return (
     <Link to={`/product/${product.id}`} className="block">
-      <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 h-full flex flex-col">
+      <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-2 sm:p-4 h-full flex flex-col">
         {/* Product Image */}
-        <div className="aspect-square mb-4 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden">
+        <div className="aspect-square mb-2 sm:mb-4 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden">
           <img
             src={product.image}
             alt={product.title}
@@ -68,28 +68,30 @@ const ProductCard = ({ product }) => {
 
         {/* Product Info */}
         <div className="flex-1 flex flex-col">
-          <h3 className="text-sm font-medium text-gray-900 mb-2 line-clamp-2">
-            {truncateTitle(product.title)}
+          <h3 className="text-xs sm:text-sm font-medium text-gray-900 mb-1 sm:mb-2 line-clamp-2 leading-tight">
+            {truncateTitle(product.title, window.innerWidth < 640 ? 30 : 50)}
           </h3>
 
           {/* Rating */}
-          <div className="flex items-center mb-2">
+          <div className="flex items-center mb-1 sm:mb-2">
             <div className="flex items-center">
               {renderStars(product.rating?.rate || 0)}
             </div>
-            <span className="ml-2 text-sm text-gray-600">
+            <span className="ml-1 sm:ml-2 text-xs sm:text-sm text-gray-600">
               ({product.rating?.count || 0})
             </span>
           </div>
 
-          {/* Price */}
-          <div className="flex items-center justify-between mt-auto">
-            <span className="text-lg font-bold text-gray-900">
-              ${product.price}
-            </span>
+          {/* Price and Add to Cart */}
+          <div className="mt-auto">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm sm:text-lg font-bold text-gray-900">
+                ${product.price}
+              </span>
+            </div>
             <button
               onClick={handleAddToCart}
-              className="bg-amazon-orange hover:bg-yellow-500 text-amazon-blue px-3 py-1 rounded-md text-sm font-medium transition-colors"
+              className="w-full bg-amazon-orange hover:bg-yellow-500 text-amazon-blue px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors"
             >
               Add to Cart
             </button>
